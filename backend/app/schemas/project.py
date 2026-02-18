@@ -1,7 +1,8 @@
 """Project and sub-project schemas."""
 from pydantic import BaseModel
 from typing import Optional, List
-from datetime import date, datetime
+from datetime import date
+from app.schemas.types import FormattedDatetime
 
 
 class ProjectCreate(BaseModel):
@@ -95,7 +96,7 @@ class ProgressRecordResponse(BaseModel):
     percent: float
     milestone: Optional[str]
     note: Optional[str]
-    created_at: datetime
+    created_at: FormattedDatetime
 
     class Config:
         from_attributes = True
@@ -134,7 +135,7 @@ class ProjectResponse(BaseModel):
     start_date: Optional[date]
     end_date: Optional[date]
     status: str
-    created_at: datetime
+    created_at: FormattedDatetime
     sub_projects: List[SubProjectResponse] = []
 
     class Config:

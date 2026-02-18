@@ -12,14 +12,14 @@ from app.schemas.budget import (
 )
 from app.utils.security import get_current_user, require_role
 
-router = APIRouter(prefix="/api/budget", tags=["预算科目管理"])
+router = APIRouter(prefix="/api/budget", tags=["概算科目管理"])
 
 
 # ===== Budget Categories =====
 
 @router.get("/categories", response_model=list[BudgetCategoryResponse])
 async def list_categories(db: AsyncSession = Depends(get_db), user: User = Depends(get_current_user)):
-    """获取预算科目列表（树形结构）"""
+    """获取概算科目列表（树形结构）"""
     result = await db.execute(select(BudgetCategory).order_by(BudgetCategory.level, BudgetCategory.sort_order))
     categories = result.scalars().all()
 
@@ -45,7 +45,7 @@ async def list_categories(db: AsyncSession = Depends(get_db), user: User = Depen
 
 @router.get("/categories/flat", response_model=list[BudgetCategoryResponse])
 async def list_categories_flat(db: AsyncSession = Depends(get_db), user: User = Depends(get_current_user)):
-    """获取预算科目平铺列表"""
+    """获取概算科目平铺列表"""
     result = await db.execute(select(BudgetCategory).order_by(BudgetCategory.level, BudgetCategory.sort_order))
     categories = result.scalars().all()
     cat_list = []
@@ -71,7 +71,7 @@ async def create_category(
     db: AsyncSession = Depends(get_db),
     user: User = Depends(require_role("admin", "leader")),
 ):
-    """创建预算科目"""
+    """创建概算科目"""
     cat = BudgetCategory(**req.model_dump())
     db.add(cat)
     await db.flush()
@@ -86,7 +86,7 @@ async def update_category(
     db: AsyncSession = Depends(get_db),
     user: User = Depends(require_role("admin", "leader")),
 ):
-    """更新预算科目"""
+    """更新概算科目"""
     result = await db.execute(select(BudgetCategory).where(BudgetCategory.id == cat_id))
     cat = result.scalar_one_or_none()
     if not cat:

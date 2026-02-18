@@ -1,7 +1,7 @@
 """User schemas."""
 from pydantic import BaseModel
 from typing import Optional
-from datetime import datetime
+from app.schemas.types import FormattedDatetime
 
 
 class UserCreate(BaseModel):
@@ -26,7 +26,7 @@ class UserResponse(BaseModel):
     role: str
     department: Optional[str]
     is_active: bool
-    created_at: datetime
+    created_at: FormattedDatetime
 
     class Config:
         from_attributes = True

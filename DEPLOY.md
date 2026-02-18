@@ -1,4 +1,4 @@
-# 部署指南 - 煤矿技改预算管控系统
+# 部署指南 - 煤矿技改概算管控系统
 
 ## 一、部署方式概览
 
@@ -77,7 +77,7 @@ docker-compose down
 # 在项目根目录执行
 git init
 git add .
-git commit -m "初始提交：煤矿技改预算管控系统"
+git commit -m "初始提交：煤矿技改概算管控系统"
 
 # 在 GitHub 上创建新仓库后
 git remote add origin https://github.com/你的用户名/coal-mine-budget.git
@@ -161,8 +161,8 @@ git push -u origin main
 | DATABASE_URL | sqlite+aiosqlite:///./coal_mine_budget.db | 数据库连接 |
 | SECRET_KEY | (...默认值) | JWT 签名密钥，生产环境务必修改 |
 | CORS_ORIGINS | * | 允许的 CORS 来源，多个用逗号分隔 |
-| ALERT_YELLOW_THRESHOLD | 0.80 | 预算黄灯预警阈值 |
-| ALERT_RED_THRESHOLD | 0.90 | 预算红灯预警阈值 |
+| ALERT_YELLOW_THRESHOLD | 0.80 | 概算黄灯预警阈值 |
+| ALERT_RED_THRESHOLD | 0.90 | 概算红灯预警阈值 |
 
 ### 前端环境变量
 

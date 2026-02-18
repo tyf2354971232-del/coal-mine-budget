@@ -3,7 +3,7 @@
     <el-card shadow="hover">
       <template #header>
         <div class="card-header">
-          <span class="card-title">预算科目管理</span>
+          <span class="card-title">概算科目管理</span>
           <el-button v-if="authStore.isLeader" type="primary" @click="showCreateDialog = true">
             <el-icon><Plus /></el-icon> 新增科目
           </el-button>
@@ -21,7 +21,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="budget_amount" label="预算(万元)" width="130" align="right">
+        <el-table-column prop="budget_amount" label="概算(万元)" width="130" align="right">
           <template #default="{ row }">{{ row.budget_amount?.toLocaleString() }}</template>
         </el-table-column>
         <el-table-column prop="actual_spent" label="已支出(万元)" width="130" align="right">
@@ -65,7 +65,7 @@
             <el-option v-for="c in flatCategories.filter(fc => fc.level < form.level)" :key="c.id" :label="c.name" :value="c.id" />
           </el-select>
         </el-form-item>
-        <el-form-item label="预算金额">
+        <el-form-item label="概算金额">
           <el-input-number v-model="form.budget_amount" :min="0" :precision="2" style="width:100%" />
         </el-form-item>
         <el-form-item label="描述"><el-input v-model="form.description" type="textarea" /></el-form-item>

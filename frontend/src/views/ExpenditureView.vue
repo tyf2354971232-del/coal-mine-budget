@@ -55,7 +55,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="created_at" label="录入时间" width="170">
-          <template #default="{ row }">{{ row.created_at?.replace('T', ' ').substring(0, 19) }}</template>
+          <template #default="{ row }">{{ formatDateTime(row.created_at) }}</template>
         </el-table-column>
         <el-table-column label="操作" width="80" align="center" v-if="authStore.isAdmin">
           <template #default="{ row }">
@@ -82,7 +82,7 @@
         <el-form-item label="金额(万元)">
           <el-input-number v-model="form.amount" :min="0" :precision="2" style="width:100%" />
         </el-form-item>
-        <el-form-item label="预算科目">
+        <el-form-item label="概算科目">
           <el-select v-model="form.category_id" clearable filterable style="width:100%">
             <el-option v-for="c in flatCategories" :key="c.id" :label="`[${c.code}] ${c.name}`" :value="c.id" />
           </el-select>
@@ -123,6 +123,7 @@ import { projectApi } from '../api/projects'
 import { useAuthStore } from '../stores/auth'
 import ReadOnlyBanner from '../components/common/ReadOnlyBanner.vue'
 import dayjs from 'dayjs'
+import { formatDateTime } from '../utils/format'
 
 const authStore = useAuthStore()
 const loading = ref(false)

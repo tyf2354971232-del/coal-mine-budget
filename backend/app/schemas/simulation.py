@@ -1,7 +1,7 @@
 """Simulation schemas."""
 from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
-from datetime import datetime
+from app.schemas.types import FormattedDatetime
 
 
 class WhatIfParam(BaseModel):
@@ -55,7 +55,7 @@ class ScenarioResponse(BaseModel):
     total_cost: Optional[float]
     total_return: Optional[float]
     roi: Optional[float]
-    created_at: datetime
+    created_at: FormattedDatetime
 
     class Config:
         from_attributes = True
@@ -67,7 +67,7 @@ class SimulationResponse(BaseModel):
     description: Optional[str]
     sim_type: str
     created_by: Optional[int]
-    created_at: datetime
+    created_at: FormattedDatetime
     scenarios: List[ScenarioResponse] = []
 
     class Config:
@@ -101,3 +101,7 @@ class DashboardSummary(BaseModel):
     top_risks: List[Dict[str, Any]]
     monthly_trend: List[Dict[str, Any]]
     kpi: Dict[str, Any]
+    cash_outflow_total: float = 0
+    cash_inflow_total: float = 0
+    cash_balance: float = 0
+    monthly_cashflow: List[Dict[str, Any]] = []

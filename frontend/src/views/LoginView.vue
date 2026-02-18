@@ -3,7 +3,7 @@
     <div class="login-card">
       <div class="login-header">
         <el-icon :size="48" color="#409EFF"><OfficeBuilding /></el-icon>
-        <h1>煤矿技改预算管控系统</h1>
+        <h1>煤矿技改概算管控系统</h1>
         <p>平煤神马塔能伊斯法拉公司</p>
       </div>
       <el-form ref="formRef" :model="form" :rules="rules" @submit.prevent="handleLogin" class="login-form">

@@ -22,7 +22,7 @@
       <!-- Budget Info -->
       <el-col :span="8">
         <el-card shadow="hover">
-          <template #header><span class="card-title">预算信息</span></template>
+          <template #header><span class="card-title">概算信息</span></template>
           <div class="budget-circle">
             <el-progress type="circle" :percentage="Math.min(100, sp?.budget_usage_rate || 0)"
               :color="sp?.budget_usage_rate >= 90 ? '#F56C6C' : sp?.budget_usage_rate >= 80 ? '#E6A23C' : '#409EFF'"
@@ -30,19 +30,19 @@
               <template #default>
                 <div style="text-align:center">
                   <div style="font-size:20px;font-weight:bold">{{ (sp?.budget_usage_rate || 0).toFixed(1) }}%</div>
-                  <div style="font-size:12px;color:#909399">预算使用率</div>
+                  <div style="font-size:12px;color:#909399">概算使用率</div>
                 </div>
               </template>
             </el-progress>
           </div>
           <el-descriptions :column="1" border style="margin-top:16px">
-            <el-descriptions-item label="分配预算">{{ formatMoney(sp?.allocated_budget) }}</el-descriptions-item>
+            <el-descriptions-item label="分配概算">{{ formatMoney(sp?.allocated_budget) }}</el-descriptions-item>
             <el-descriptions-item label="已支出">
               <span :style="{ color: sp?.is_over_budget ? '#F56C6C' : '', fontWeight: 'bold' }">
                 {{ formatMoney(sp?.actual_spent) }}
               </span>
             </el-descriptions-item>
-            <el-descriptions-item label="预算剩余">
+            <el-descriptions-item label="概算剩余">
               {{ formatMoney((sp?.allocated_budget || 0) - (sp?.actual_spent || 0)) }}
             </el-descriptions-item>
           </el-descriptions>

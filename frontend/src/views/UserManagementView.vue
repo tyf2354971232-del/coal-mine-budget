@@ -26,7 +26,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="created_at" label="创建时间" width="170">
-          <template #default="{ row }">{{ row.created_at?.replace('T', ' ').substring(0, 19) }}</template>
+          <template #default="{ row }">{{ formatDateTime(row.created_at) }}</template>
         </el-table-column>
         <el-table-column label="操作" width="150">
           <template #default="{ row }">
@@ -64,6 +64,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { authApi } from '../api/auth'
+import { formatDateTime } from '../utils/format'
 
 const loading = ref(false)
 const saving = ref(false)

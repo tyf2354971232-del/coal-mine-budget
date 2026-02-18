@@ -3,3 +3,4 @@ from app.schemas.user import *
 from app.schemas.project import *
 from app.schemas.budget import *
 from app.schemas.simulation import *
+from app.schemas.cashflow import *

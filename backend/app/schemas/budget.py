@@ -1,7 +1,8 @@
 """Budget, cost item, and expenditure schemas."""
 from pydantic import BaseModel
 from typing import Optional, List
-from datetime import date, datetime
+from datetime import date
+from app.schemas.types import FormattedDatetime
 
 
 class BudgetCategoryCreate(BaseModel):
@@ -98,7 +99,7 @@ class ExpenditureResponse(BaseModel):
     voucher_no: Optional[str]
     source: str
     created_by: Optional[int]
-    created_at: datetime
+    created_at: FormattedDatetime
 
     class Config:
         from_attributes = True

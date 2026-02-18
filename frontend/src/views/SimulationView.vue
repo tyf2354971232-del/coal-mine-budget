@@ -40,10 +40,10 @@
                   :value-style="{ color: whatifResult.cost_change > 0 ? '#F56C6C' : '#67C23A' }" />
               </el-col>
               <el-col :span="6">
-                <el-statistic title="预算状态">
+                <el-statistic title="概算状态">
                   <template #default>
                     <el-tag :type="whatifResult.budget_status === 'over_budget' ? 'danger' : whatifResult.budget_status === 'near_limit' ? 'warning' : 'success'" size="large" effect="dark">
-                      {{ whatifResult.budget_status === 'over_budget' ? '超出预算' : whatifResult.budget_status === 'near_limit' ? '接近上限' : '预算内' }}
+                      {{ whatifResult.budget_status === 'over_budget' ? '超出概算' : whatifResult.budget_status === 'near_limit' ? '接近上限' : '概算内' }}
                     </el-tag>
                   </template>
                 </el-statistic>
@@ -56,7 +56,7 @@
                   <template #header><span>KPI 影响</span></template>
                   <el-descriptions :column="1" border>
                     <el-descriptions-item label="概算控制率">{{ whatifResult.kpi_impact?.budget_control_rate }}%</el-descriptions-item>
-                    <el-descriptions-item label="原预算使用率">{{ whatifResult.kpi_impact?.original_budget_usage }}%</el-descriptions-item>
+                    <el-descriptions-item label="原概算使用率">{{ whatifResult.kpi_impact?.original_budget_usage }}%</el-descriptions-item>
                     <el-descriptions-item label="调整后使用率">{{ whatifResult.kpi_impact?.adjusted_budget_usage }}%</el-descriptions-item>
                   </el-descriptions>
                 </el-card>
@@ -94,13 +94,13 @@
                     <span style="font-weight:bold">{{ sc.name }}</span>
                   </template>
                   <el-descriptions :column="1" border size="small">
-                    <el-descriptions-item label="调整后预算">{{ sc.total_cost?.toLocaleString() }}万元</el-descriptions-item>
+                    <el-descriptions-item label="调整后概算">{{ sc.total_cost?.toLocaleString() }}万元</el-descriptions-item>
                     <el-descriptions-item label="预计回报">{{ sc.total_return?.toLocaleString() }}万元</el-descriptions-item>
                     <el-descriptions-item label="投资回报率">
                       <el-tag :type="(sc.roi || 0) > 0 ? 'success' : 'danger'">{{ sc.roi }}%</el-tag>
                     </el-descriptions-item>
                     <el-descriptions-item v-if="sc.results" label="预估工期">{{ sc.results.estimated_duration_months }}个月</el-descriptions-item>
-                    <el-descriptions-item v-if="sc.results" label="预算节约">{{ sc.results.budget_savings?.toLocaleString() }}万元</el-descriptions-item>
+                    <el-descriptions-item v-if="sc.results" label="概算节约">{{ sc.results.budget_savings?.toLocaleString() }}万元</el-descriptions-item>
                   </el-descriptions>
                 </el-card>
               </el-col>
@@ -178,9 +178,9 @@ async function createPresetScenarios() {
       description: '保守/正常/乐观三种情景对比',
       sim_type: 'scenario',
       scenarios: [
-        { name: '保守方案 (预算x0.9)', parameters: { budget_factor: 0.9, duration_factor: 1.15, efficiency_factor: 0.85 } },
-        { name: '正常方案 (预算x1.0)', parameters: { budget_factor: 1.0, duration_factor: 1.0, efficiency_factor: 1.0 } },
-        { name: '乐观方案 (预算x1.05)', parameters: { budget_factor: 1.05, duration_factor: 0.9, efficiency_factor: 1.15 } },
+        { name: '保守方案 (概算x0.9)', parameters: { budget_factor: 0.9, duration_factor: 1.15, efficiency_factor: 0.85 } },
+        { name: '正常方案 (概算x1.0)', parameters: { budget_factor: 1.0, duration_factor: 1.0, efficiency_factor: 1.0 } },
+        { name: '乐观方案 (概算x1.05)', parameters: { budget_factor: 1.05, duration_factor: 0.9, efficiency_factor: 1.15 } },
       ]
     })
     scenarios.value = data.scenarios || []

@@ -18,6 +18,12 @@ export function formatDate(val: string | undefined | null): string {
   return dayjs(val).format('YYYY-MM-DD')
 }
 
+/** Format datetime (yyyy-mm-dd hh:mm:ss) */
+export function formatDateTime(val: string | undefined | null): string {
+  if (!val) return '-'
+  return dayjs(val).format('YYYY-MM-DD HH:mm:ss')
+}
+
 /** Get status tag type for Element Plus */
 export function getStatusType(status: string): string {
   const map: Record<string, string> = {

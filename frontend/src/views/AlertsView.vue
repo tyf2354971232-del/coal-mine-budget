@@ -51,13 +51,15 @@
         </el-table-column>
         <el-table-column prop="alert_type" label="类型" width="120">
           <template #default="{ row }">
-            {{ row.alert_type === 'budget_overrun' ? '预算超支' : row.alert_type === 'schedule_delay' ? '工期延误' : row.alert_type === 'burn_rate' ? '消耗速率' : row.alert_type }}
+            {{ row.alert_type === 'budget_overrun' ? '概算超支' : row.alert_type === 'schedule_delay' ? '工期延误' : row.alert_type === 'burn_rate' ? '消耗速率' : row.alert_type }}
           </template>
         </el-table-column>
         <el-table-column prop="title" label="标题" min-width="200" />
         <el-table-column prop="message" label="详情" min-width="300" show-overflow-tooltip />
         <el-table-column prop="related_name" label="关联对象" width="150" />
-        <el-table-column prop="created_at" label="时间" width="170" />
+        <el-table-column prop="created_at" label="时间" width="170">
+          <template #default="{ row }">{{ formatDateTime(row.created_at) }}</template>
+        </el-table-column>
         <el-table-column label="状态" width="100" align="center">
           <template #default="{ row }">
             <el-tag v-if="row.is_resolved" type="success" size="small">已解决</el-tag>
@@ -86,6 +88,7 @@
 import { ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { alertApi } from '../api/simulation'
+import { formatDateTime } from '../utils/format'
 import { useAuthStore } from '../stores/auth'
 import ReadOnlyBanner from '../components/common/ReadOnlyBanner.vue'
 

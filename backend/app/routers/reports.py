@@ -151,7 +151,7 @@ async def monthly_report(
 
     return {
         "report_period": f"{year}年{month}月",
-        "generated_at": datetime.datetime.now().isoformat(),
+        "generated_at": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
         "overview": {
             "total_budget": total_budget,
             "reserve_budget": total_budget * reserve_rate,
@@ -196,7 +196,7 @@ def _generate_recommendations(sp_details, total_budget, cumulative_spent, reserv
     over_budget_items = [sp for sp in sp_details if sp["risk_level"] == "red"]
     if over_budget_items:
         names = "、".join(sp["name"] for sp in over_budget_items[:3])
-        recommendations.append(f"⚠️ 以下工程预算使用率超过90%，建议重点关注并控制支出：{names}")
+        recommendations.append(f"⚠️ 以下工程概算使用率超过90%，建议重点关注并控制支出：{names}")
 
     delayed_items = [sp for sp in sp_details if sp["schedule_status"] == "滞后"]
     if delayed_items:
@@ -205,7 +205,7 @@ def _generate_recommendations(sp_details, total_budget, cumulative_spent, reserv
 
     usage_rate = cumulative_spent / total_budget
     if usage_rate > (1 - reserve_rate):
-        recommendations.append(f"💰 总体预算已超过可用预算线（{(1-reserve_rate)*100:.0f}%），正在使用弹性预备金")
+        recommendations.append(f"💰 总体概算已超过可用概算线（{(1-reserve_rate)*100:.0f}%），正在使用弹性预备金")
 
     if not recommendations:
         recommendations.append("✅ 当前各项指标正常，请继续保持")

@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    APP_NAME: str = "煤矿技改预算管控系统"
+    APP_NAME: str = "煤矿技改概算管控系统"
     APP_VERSION: str = "1.0.0"
     DATABASE_URL: str = "sqlite+aiosqlite:///./coal_mine_budget.db"
     SECRET_KEY: str = "pingmei-shenma-taneng-isfara-secret-key-change-in-production"

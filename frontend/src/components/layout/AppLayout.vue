@@ -3,7 +3,7 @@
     <el-aside :width="isCollapse ? '64px' : '220px'" class="sidebar">
       <div class="logo" @click="$router.push('/dashboard')">
         <el-icon :size="28"><OfficeBuilding /></el-icon>
-        <span v-show="!isCollapse" class="logo-text">预算管控系统</span>
+        <span v-show="!isCollapse" class="logo-text">概算管控系统</span>
       </div>
       <el-menu
         :default-active="activeMenu"
@@ -85,8 +85,9 @@ const activeMenu = computed(() => '/' + route.path.split('/')[1])
 const allMenuItems = [
   { path: '/dashboard',    title: '领导驾驶舱',   icon: 'DataBoard',       roles: ['admin', 'leader', 'department', 'viewer'] },
   { path: '/projects',     title: '工程项目管理',  icon: 'OfficeBuilding',  roles: ['admin', 'leader', 'department', 'viewer'] },
-  { path: '/budget',       title: '预算科目管理',  icon: 'Wallet',          roles: ['admin', 'leader'] },
+  { path: '/budget',       title: '概算科目管理',  icon: 'Wallet',          roles: ['admin', 'leader'] },
   { path: '/expenditures', title: '支出管理',      icon: 'Money',           roles: ['admin', 'leader', 'department', 'viewer'] },
+  { path: '/cashflow',     title: '现金流管理',    icon: 'Coin',            roles: ['admin', 'leader', 'department', 'viewer'] },
   { path: '/simulation',   title: '模拟分析中心',  icon: 'TrendCharts',     roles: ['admin', 'leader'] },
   { path: '/alerts',       title: '预警管理',      icon: 'Bell',            roles: ['admin', 'leader', 'department', 'viewer'] },
   { path: '/reports',      title: '月度考核报表',  icon: 'Document',        roles: ['admin', 'leader', 'department', 'viewer'] },

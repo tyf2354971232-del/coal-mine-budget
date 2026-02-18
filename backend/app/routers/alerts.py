@@ -43,8 +43,8 @@ async def list_alerts(
             "related_name": a.related_name,
             "is_read": a.is_read,
             "is_resolved": a.is_resolved,
-            "created_at": a.created_at.isoformat(),
-            "resolved_at": a.resolved_at.isoformat() if a.resolved_at else None,
+            "created_at": a.created_at.strftime('%Y-%m-%d %H:%M:%S') if a.created_at else None,
+            "resolved_at": a.resolved_at.strftime('%Y-%m-%d %H:%M:%S') if a.resolved_at else None,
         }
         for a in result.scalars().all()
     ]
@@ -77,7 +77,7 @@ async def run_alert_check(
         ratio = sp.actual_spent / sp.allocated_budget if sp.allocated_budget > 0 else 0
         if ratio >= settings.ALERT_RED_THRESHOLD:
             existing = await _find_existing("budget_overrun", "sub_project", sp.id)
-            msg = f"子工程「{sp.name}」预算使用率已达 {ratio*100:.1f}%，预算 {sp.allocated_budget:.2f}万元，已支出 {sp.actual_spent:.2f}万元"
+            msg = f"子工程「{sp.name}」概算使用率已达 {ratio*100:.1f}%，概算 {sp.allocated_budget:.2f}万元，已支出 {sp.actual_spent:.2f}万元"
             if existing:
                 existing.level = "red"
                 existing.message = msg
@@ -85,14 +85,14 @@ async def run_alert_check(
             else:
                 alert = AlertLog(
                     alert_type="budget_overrun", level="red",
-                    title="预算严重超支预警", message=msg,
+                    title="概算严重超支预警", message=msg,
                     related_type="sub_project", related_id=sp.id, related_name=sp.name,
                 )
                 db.add(alert)
                 alerts_generated.append(alert.title)
         elif ratio >= settings.ALERT_YELLOW_THRESHOLD:
             existing = await _find_existing("budget_overrun", "sub_project", sp.id)
-            msg = f"子工程「{sp.name}」预算使用率已达 {ratio*100:.1f}%，请注意控制支出"
+            msg = f"子工程「{sp.name}」概算使用率已达 {ratio*100:.1f}%，请注意控制支出"
             if existing:
                 existing.level = "yellow"
                 existing.message = msg
@@ -100,7 +100,7 @@ async def run_alert_check(
             else:
                 alert = AlertLog(
                     alert_type="budget_overrun", level="yellow",
-                    title="预算超支预警", message=msg,
+                    title="概算超支预警", message=msg,
                     related_type="sub_project", related_id=sp.id, related_name=sp.name,
                 )
                 db.add(alert)
@@ -154,7 +154,7 @@ async def run_alert_check(
 
             if projected_total > project.total_budget:
                 level = "red" if projected_total > project.total_budget * 1.1 else "yellow"
-                msg = f"按当前月均消耗 {monthly_burn:.2f}万元/月，预计总支出将达 {projected_total:.2f}万元，超出预算 {projected_total - project.total_budget:.2f}万元"
+                msg = f"按当前月均消耗 {monthly_burn:.2f}万元/月，预计总支出将达 {projected_total:.2f}万元，超出概算 {projected_total - project.total_budget:.2f}万元"
                 existing = await _find_existing("burn_rate", "project", project.id)
                 if existing:
                     existing.level = level

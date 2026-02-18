@@ -2,11 +2,11 @@
   <div class="dashboard" v-loading="loading">
     <!-- KPI Cards Row -->
     <el-row :gutter="16" class="kpi-row">
-      <el-col :span="6">
+      <el-col :xs="12" :sm="8" :md="6">
         <el-card shadow="hover" class="kpi-card">
           <div class="kpi-content">
             <div class="kpi-info">
-              <div class="kpi-label">项目总预算</div>
+              <div class="kpi-label">项目总概算</div>
               <div class="kpi-value">{{ formatMoney(data.total_budget) }}</div>
             </div>
             <el-icon :size="40" color="#409EFF"><Wallet /></el-icon>
@@ -45,13 +45,13 @@
         <el-card shadow="hover" class="kpi-card">
           <div class="kpi-content">
             <div class="kpi-info">
-              <div class="kpi-label">预警统计</div>
-              <div class="kpi-value" style="display:flex;gap:12px;">
-                <el-tag type="danger" effect="dark" round>{{ data.delayed_count }} 延期</el-tag>
-                <el-tag type="primary" effect="dark" round>{{ data.in_progress_count }} 进行</el-tag>
-              </div>
+              <div class="kpi-label">现金支出</div>
+              <div class="kpi-value">{{ formatMoney(data.cash_outflow_total) }}</div>
             </div>
-            <el-icon :size="40" color="#F56C6C"><Bell /></el-icon>
+            <el-icon :size="40" color="#909399"><Coin /></el-icon>
+          </div>
+          <div class="kpi-footer">
+            流入 {{ formatMoney(data.cash_inflow_total) }} | 净额 {{ formatMoney(data.cash_balance) }}
           </div>
         </el-card>
       </el-col>
@@ -62,7 +62,7 @@
       <el-col :span="14">
         <el-card shadow="hover">
           <template #header>
-            <span class="card-title">六大费用类别 预算 vs 实际</span>
+            <span class="card-title">六大费用类别 概算 vs 实际</span>
           </template>
           <div ref="categoryChartRef" style="height: 360px;"></div>
         </el-card>
@@ -70,7 +70,7 @@
       <el-col :span="10">
         <el-card shadow="hover">
           <template #header>
-            <span class="card-title">预算分配占比</span>
+            <span class="card-title">概算分配占比</span>
           </template>
           <div ref="pieChartRef" style="height: 360px;"></div>
         </el-card>
@@ -90,7 +90,7 @@
       <el-col :span="10">
         <el-card shadow="hover" class="risk-card">
           <template #header>
-            <span class="card-title">预算超支风险 Top 5</span>
+            <span class="card-title">概算超支风险 Top 5</span>
           </template>
           <div v-if="data.top_risks?.length" class="risk-list">
             <div v-for="risk in data.top_risks" :key="risk.id" class="risk-item">
@@ -107,7 +107,7 @@
                 :show-text="false"
               />
               <div class="risk-detail">
-                预算 {{ formatMoney(risk.budget) }} | 已用 {{ formatMoney(risk.spent) }}
+                概算 {{ formatMoney(risk.budget) }} | 已用 {{ formatMoney(risk.spent) }}
               </div>
             </div>
           </div>
@@ -178,12 +178,12 @@ function renderCategoryChart() {
   const cats = data.value.category_breakdown
   chart.setOption({
     tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-    legend: { data: ['批复预算', '实际支出'], top: 10 },
+    legend: { data: ['批复概算', '实际支出'], top: 10 },
     grid: { left: 60, right: 20, top: 50, bottom: 40 },
     xAxis: { type: 'category', data: cats.map((c: any) => c.name), axisLabel: { fontSize: 12 } },
     yAxis: { type: 'value', name: '万元', axisLabel: { formatter: (v: number) => v >= 10000 ? (v/10000).toFixed(1) + '万' : v } },
     series: [
-      { name: '批复预算', type: 'bar', data: cats.map((c: any) => c.budget), itemStyle: { color: '#409EFF' }, barMaxWidth: 40 },
+      { name: '批复概算', type: 'bar', data: cats.map((c: any) => c.budget), itemStyle: { color: '#409EFF' }, barMaxWidth: 40 },
       { name: '实际支出', type: 'bar', data: cats.map((c: any) => c.spent), itemStyle: { color: '#F56C6C' }, barMaxWidth: 40 },
     ]
   })
@@ -217,12 +217,12 @@ function renderProgressChart() {
   const items = data.value.top_risks.slice(0, 10)
   chart.setOption({
     tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-    legend: { data: ['预算使用率'], top: 10 },
+    legend: { data: ['概算使用率'], top: 10 },
     grid: { left: 140, right: 40, top: 50, bottom: 20 },
     xAxis: { type: 'value', max: 100, axisLabel: { formatter: '{value}%' } },
     yAxis: { type: 'category', data: items.map((i: any) => i.name), axisLabel: { fontSize: 11, width: 120, overflow: 'truncate' } },
     series: [{
-      name: '预算使用率',
+      name: '概算使用率',
       type: 'bar',
       data: items.map((i: any) => ({
         value: Math.min(100, i.usage_rate),

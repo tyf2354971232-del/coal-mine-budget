@@ -49,13 +49,19 @@ const router = createRouter({
           path: 'budget',
           name: 'Budget',
           component: () => import('../views/BudgetCategoryView.vue'),
-          meta: { title: '预算科目管理', icon: 'Wallet', roles: ['admin', 'leader'] }
+          meta: { title: '概算科目管理', icon: 'Wallet', roles: ['admin', 'leader'] }
         },
         {
           path: 'expenditures',
           name: 'Expenditures',
           component: () => import('../views/ExpenditureView.vue'),
           meta: { title: '支出管理', icon: 'Money', roles: ['admin', 'leader', 'department', 'viewer'] }
+        },
+        {
+          path: 'cashflow',
+          name: 'CashFlow',
+          component: () => import('../views/CashFlowView.vue'),
+          meta: { title: '现金流管理', icon: 'Coin', roles: ['admin', 'leader', 'department', 'viewer'] }
         },
         {
           path: 'simulation',

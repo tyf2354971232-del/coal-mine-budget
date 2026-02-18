@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.database import init_db, async_session
-from app.routers import auth, projects, budget, expenditures, dashboard, simulation, alerts, reports
+from app.routers import auth, projects, budget, expenditures, dashboard, simulation, alerts, reports, cashflow
 from app.services.seed_data import seed_initial_data
 
 
@@ -26,7 +26,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
-    description="煤矿技改项目预算管控与模拟分析系统 - 平煤神马塔能伊斯法拉公司",
+    description="煤矿技改项目概算管控与模拟分析系统 - 平煤神马塔能伊斯法拉公司",
     lifespan=lifespan,
 )
 
@@ -48,6 +48,7 @@ app.include_router(dashboard.router)
 app.include_router(simulation.router)
 app.include_router(alerts.router)
 app.include_router(reports.router)
+app.include_router(cashflow.router)
 
 
 @app.exception_handler(Exception)

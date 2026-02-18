@@ -14,7 +14,7 @@ class BudgetCategory(Base):
     code = Column(String(50), nullable=True, unique=True)  # 科目编码
     parent_id = Column(Integer, ForeignKey("budget_categories.id"), nullable=True)
     level = Column(Integer, default=1)  # 1=一级科目, 2=二级科目, 3=三级科目
-    budget_amount = Column(Float, default=0)  # 预算金额 万元
+    budget_amount = Column(Float, default=0)  # 概算金额 万元
     description = Column(Text, nullable=True)
     sort_order = Column(Integer, default=0)
 
@@ -30,7 +30,7 @@ class CostItem(Base):
     sub_project_id = Column(Integer, ForeignKey("sub_projects.id"), nullable=False)
     category_id = Column(Integer, ForeignKey("budget_categories.id"), nullable=True)
     name = Column(String(200), nullable=False)
-    budget_amount = Column(Float, default=0)  # 预算金额 万元
+    budget_amount = Column(Float, default=0)  # 概算金额 万元
     actual_amount = Column(Float, default=0)  # 实际金额 万元 (auto-calculated)
     unit = Column(String(50), nullable=True)
     quantity = Column(Float, nullable=True)

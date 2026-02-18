@@ -29,7 +29,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="category" label="费用类别" width="120" />
-        <el-table-column prop="allocated_budget" label="预算(万元)" width="120" align="right">
+        <el-table-column prop="allocated_budget" label="概算(万元)" width="120" align="right">
           <template #default="{ row }">{{ row.allocated_budget?.toLocaleString() }}</template>
         </el-table-column>
         <el-table-column prop="actual_spent" label="已支出(万元)" width="120" align="right">
@@ -39,7 +39,7 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column label="预算使用率" width="160">
+        <el-table-column label="概算使用率" width="160">
           <template #default="{ row }">
             <el-progress
               :percentage="Math.min(100, row.budget_usage_rate || 0)"
@@ -70,7 +70,7 @@
 
       <div class="summary-bar">
         共 {{ filteredProjects.length }} 个子工程 |
-        总预算 {{ formatMoney(totalBudget) }} |
+        总概算 {{ formatMoney(totalBudget) }} |
         总支出 {{ formatMoney(totalSpent) }} |
         总体使用率 {{ totalBudget > 0 ? (totalSpent / totalBudget * 100).toFixed(1) : 0 }}%
       </div>
@@ -87,7 +87,7 @@
             <el-option v-for="c in BUDGET_CATEGORIES" :key="c" :label="c" :value="c" />
           </el-select>
         </el-form-item>
-        <el-form-item label="预算金额" prop="allocated_budget">
+        <el-form-item label="概算金额" prop="allocated_budget">
           <el-input-number v-model="form.allocated_budget" :min="0" :precision="2" style="width:100%" />
           <span style="margin-left:8px;color:#909399">万元</span>
         </el-form-item>

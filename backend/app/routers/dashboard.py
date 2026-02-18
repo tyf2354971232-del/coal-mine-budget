@@ -9,6 +9,7 @@ from app.models.user import User
 from app.models.project import Project, SubProject
 from app.models.budget import BudgetCategory, Expenditure, CostItem
 from app.models.alert import AlertLog
+from app.models.cashflow import CashFlow
 from app.schemas.simulation import DashboardSummary
 from app.utils.security import get_current_user
 from app.config import settings
@@ -105,6 +106,33 @@ async def get_dashboard_summary(db: AsyncSession = Depends(get_db), user: User =
         "efficiency_index": 0,  # To be calculated when production data available
     }
 
+    # Cash flow summary
+    cf_outflow = await db.execute(
+        select(func.coalesce(func.sum(CashFlow.amount), 0))
+        .where(CashFlow.flow_type == "outflow", CashFlow.status != "cancelled")
+    )
+    cash_outflow_total = float(cf_outflow.scalar())
+    cf_inflow = await db.execute(
+        select(func.coalesce(func.sum(CashFlow.amount), 0))
+        .where(CashFlow.flow_type == "inflow", CashFlow.status != "cancelled")
+    )
+    cash_inflow_total = float(cf_inflow.scalar())
+
+    cf_monthly = await db.execute(
+        select(
+            func.strftime('%Y-%m', CashFlow.record_date).label('month'),
+            CashFlow.flow_type,
+            func.sum(CashFlow.amount).label('amount'),
+        ).where(CashFlow.status != "cancelled")
+        .group_by('month', CashFlow.flow_type).order_by('month')
+    )
+    cf_map = {}
+    for r in cf_monthly.all():
+        if r.month not in cf_map:
+            cf_map[r.month] = {"month": r.month, "inflow": 0, "outflow": 0}
+        cf_map[r.month][r.flow_type] = float(r.amount)
+    monthly_cashflow = sorted(cf_map.values(), key=lambda x: x["month"])
+
     return DashboardSummary(
         total_budget=total_budget,
         total_spent=total_spent,
@@ -120,6 +148,10 @@ async def get_dashboard_summary(db: AsyncSession = Depends(get_db), user: User =
         top_risks=top_risks,
         monthly_trend=monthly_trend,
         kpi=kpi,
+        cash_outflow_total=cash_outflow_total,
+        cash_inflow_total=cash_inflow_total,
+        cash_balance=cash_inflow_total - cash_outflow_total,
+        monthly_cashflow=monthly_cashflow,
     )
 
 
@@ -143,7 +175,7 @@ async def get_recent_alerts(
             "message": a.message,
             "related_name": a.related_name,
             "is_read": a.is_read,
-            "created_at": a.created_at.isoformat(),
+            "created_at": a.created_at.strftime('%Y-%m-%d %H:%M:%S') if a.created_at else None,
         }
         for a in alerts
     ]
