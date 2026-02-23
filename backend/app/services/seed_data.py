@@ -14,6 +14,10 @@ from app.services.seed_installation_data import get_installation_subprojects
 from app.services.seed_other_data import get_other_subprojects
 from app.services.seed_equipment_data import get_equipment_items, EQUIPMENT_GROUP_TO_L2
 from app.services.seed_reuse_equipment import get_reuse_equipment
+from app.services.seed_civil_settlement import seed_civil_settlement
+from app.services.seed_project_settlements import seed_project_settlements
+from app.services.seed_procurement_data import seed_procurement_data
+from app.services.seed_warehouse_outbound import seed_warehouse_outbound
 
 
 async def seed_initial_data(db: AsyncSession):
@@ -274,3 +278,9 @@ async def seed_initial_data(db: AsyncSession):
 
     await db.flush()
     print(f"[OK] Seeded: {len(all_sp_data)+2} sub-projects, {len(eq_items)} equipment items, {len(get_reuse_equipment())} reuse items")
+
+    # ── Settlement & Procurement Data ──
+    await seed_civil_settlement(db)
+    await seed_project_settlements(db)
+    await seed_procurement_data(db)
+    await seed_warehouse_outbound(db)

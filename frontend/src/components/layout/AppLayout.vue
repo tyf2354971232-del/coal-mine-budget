@@ -88,6 +88,7 @@ const allMenuItems = [
   { path: '/budget',       title: '概算科目管理',  icon: 'Wallet',          roles: ['admin', 'leader'] },
   { path: '/expenditures', title: '支出管理',      icon: 'Money',           roles: ['admin', 'leader', 'department', 'viewer'] },
   { path: '/cashflow',     title: '现金流管理',    icon: 'Coin',            roles: ['admin', 'leader', 'department', 'viewer'] },
+  { path: '/settlement',   title: '决算数据管理',  icon: 'Tickets',         roles: ['admin', 'leader', 'department', 'viewer'] },
   { path: '/simulation',   title: '模拟分析中心',  icon: 'TrendCharts',     roles: ['admin', 'leader'] },
   { path: '/alerts',       title: '预警管理',      icon: 'Bell',            roles: ['admin', 'leader', 'department', 'viewer'] },
   { path: '/reports',      title: '月度考核报表',  icon: 'Document',        roles: ['admin', 'leader', 'department', 'viewer'] },

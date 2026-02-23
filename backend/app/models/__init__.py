@@ -5,6 +5,9 @@ from app.models.budget import BudgetCategory, CostItem, Expenditure
 from app.models.alert import AlertLog
 from app.models.simulation import Simulation, SimScenario
 from app.models.cashflow import CashFlow
+from app.models.procurement import (
+    CivilSettlement, ProcurementMonthlySummary, ProcurementRecord, WarehouseOutbound,
+)
 
 __all__ = [
     "User",
@@ -13,4 +16,5 @@ __all__ = [
     "AlertLog",
     "Simulation", "SimScenario",
     "CashFlow",
+    "CivilSettlement", "ProcurementMonthlySummary", "ProcurementRecord", "WarehouseOutbound",
 ]

@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: coal-mine-budget
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    envVars:
+      - key: PORT
+        value: "8001"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: CORS_ORIGINS
+        value: "*"

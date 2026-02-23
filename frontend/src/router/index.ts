@@ -76,6 +76,12 @@ const router = createRouter({
           meta: { title: '预警管理', icon: 'Bell', roles: ['admin', 'leader', 'department', 'viewer'] }
         },
         {
+          path: 'settlement',
+          name: 'Settlement',
+          component: () => import('../views/SettlementView.vue'),
+          meta: { title: '决算数据管理', icon: 'Tickets', roles: ['admin', 'leader', 'department', 'viewer'] }
+        },
+        {
           path: 'reports',
           name: 'Reports',
           component: () => import('../views/ReportsView.vue'),
